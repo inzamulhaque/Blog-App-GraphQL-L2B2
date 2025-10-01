@@ -24,6 +24,11 @@ const typeDefs = `#graphql
         user: User!
     }
 
+    type AuthPayload {
+        token: String!
+        userError: String
+    }
+
   type Query {
     me: User
     users: [User]
@@ -35,7 +40,12 @@ const typeDefs = `#graphql
       name: String!,
       email: String!,
       password: String!
-    ): User
+    ): AuthPayload
+
+    signin(
+      email: String!,
+      password: String!
+    ): AuthPayload
   }
 `;
 
