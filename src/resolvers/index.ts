@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import jwtHelper from "../utills/JWTHelper";
 
 const prisma = new PrismaClient();
 
@@ -47,14 +48,10 @@ const resolvers = {
       const isMatch = await bcrypt.compare(args.password, user?.password!);
 
       if (!user || !isMatch) {
-        // throw new Error("Invalid credentials");
-
         return { userError: "Invalid credentials", token: null };
       }
 
-      const token = jwt.sign({ userId: user.id }, "djcbchj22423", {
-        expiresIn: "7d",
-      });
+      const token = jwtHelper({ userId: user.id }, "9d");
 
       return { token, userError: null };
     },
