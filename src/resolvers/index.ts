@@ -9,6 +9,7 @@ interface IUserInfo {
   name: string;
   email: string;
   password: string;
+  bio?: string;
 }
 
 const resolvers = {
@@ -24,14 +25,22 @@ const resolvers = {
     signup: async (parent: any, args: IUserInfo, context: any) => {
       const hashedPassword = await bcrypt.hash(args.password, 12);
 
-      console.log(hashedPassword);
-
       const result = await prisma.user.create({
         data: {
-          ...args,
+          name: args.name,
+          email: args.email,
           password: await hashedPassword,
         },
       });
+
+      if (result.id && args.bio) {
+        await prisma.profile.create({
+          data: {
+            bio: args.bio,
+            userId: result.id,
+          },
+        });
+      }
 
       return result;
     },

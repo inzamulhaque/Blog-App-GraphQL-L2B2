@@ -25,7 +25,7 @@ const typeDefs = `#graphql
     }
 
     type AuthPayload {
-        token: String!
+        token: String
         userError: String
     }
 
@@ -40,7 +40,8 @@ const typeDefs = `#graphql
       name: String!,
       email: String!,
       password: String!
-    ): AuthPayload
+      bio: String
+    ): User
 
     signin(
       email: String!,
