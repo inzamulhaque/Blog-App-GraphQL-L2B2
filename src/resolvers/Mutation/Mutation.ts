@@ -47,10 +47,16 @@ const Mutation = {
       return { userError: "Invalid credentials", token: null };
     }
 
-    const token = jwtHelper({ userId: user.id }, "9d");
+    const token = jwtHelper.generateToken({ userId: user.id }, "9d");
 
     return { token, userError: null };
   },
+
+  addPost: async (
+    parent: any,
+    args: { title: string; content: string },
+    { prisma }: any
+  ) => {},
 };
 
 export default Mutation;

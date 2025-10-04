@@ -29,6 +29,11 @@ const typeDefs = `#graphql
         userError: String
     }
 
+    type PostPayload {
+        post: Post
+        userError: String
+    }
+
   type Query {
     me: User
     users: [User]
@@ -47,6 +52,11 @@ const typeDefs = `#graphql
       email: String!,
       password: String!
     ): AuthPayload
+
+    addPost(
+      title: String!,
+      content: String!
+    ): PostPayload
   }
 `;
 

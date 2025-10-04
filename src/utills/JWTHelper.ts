@@ -1,7 +1,7 @@
 import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import cinfig from "../config";
 
-const jwtHelper = (payload: { userId: number }, time?: string) => {
+const generateToken = (payload: { userId: number }, time?: string) => {
   const secret = cinfig.JWT_SECRET;
   if (!secret) {
     throw new Error("JWT_TOKEN environment variable is not defined");
@@ -15,5 +15,21 @@ const jwtHelper = (payload: { userId: number }, time?: string) => {
 
   return token;
 };
+
+const decodeToken = (token: string) => {
+  const secret = cinfig.JWT_SECRET;
+  if (!secret) {
+    throw new Error("JWT_TOKEN environment variable is not defined");
+  }
+
+  try {
+    const decoded = jwt.verify(token, secret as Secret);
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
+
+const jwtHelper = { generateToken, decodeToken };
 
 export default jwtHelper;
