@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 
 interface IContext {
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>;
-  userId: number | null;
+  userInfo: JwtPayload | null;
 }
 
 const main = async () => {
@@ -28,7 +28,7 @@ const main = async () => {
 
       return {
         prisma,
-        userId: decoded ? (decoded as JwtPayload).userId : null,
+        userInfo: decoded ? (decoded as JwtPayload) : null,
       };
     },
   });
