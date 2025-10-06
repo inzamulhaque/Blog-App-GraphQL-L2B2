@@ -61,12 +61,23 @@ const postResolvers = {
       };
     }
 
-    const result = await prisma.post.findUniqueOrThrow({
+    const oldPost = await prisma.post.findUniqueOrThrow({
       where: {
         id: Number(args.id),
         authorId: userInfo.userId,
       },
     });
+
+    const result = await prisma.post.update({
+      where: { id: oldPost.id },
+      data: {
+        title: args.post?.title ?? oldPost.title,
+        content: args.post?.content ?? oldPost.content,
+        published: args.published ?? oldPost.published,
+      },
+    });
+
+    return { userError: null, post: result };
   },
 };
 
