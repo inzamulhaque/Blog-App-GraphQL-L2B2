@@ -34,6 +34,11 @@ const typeDefs = `#graphql
         userError: String
     }
 
+    type DeletePostPayload {
+        message: String
+        userError: String
+    }
+
     input PostInput {
         title: String
         content: String
@@ -67,6 +72,10 @@ const typeDefs = `#graphql
       post: PostInput
       published: Boolean
     ): PostPayload
+
+    deletePost(
+      id: ID!
+    ): DeletePostPayload
   }
 `;
 

@@ -79,6 +79,44 @@ const postResolvers = {
 
     return { userError: null, post: result };
   },
+
+  deletePost: async (
+    parent: any,
+    args: { id: number },
+    { prisma, userInfo }: any
+  ) => {
+    if (!userInfo) {
+      return {
+        userError: "You must be logged in to delete a post",
+        message: null,
+      };
+    }
+
+    await prisma.post.findUniqueOrThrow({
+      where: {
+        id: Number(args.id),
+        authorId: userInfo.userId,
+      },
+    });
+
+    const deletedPost = await prisma.post.delete({
+      where: {
+        id: Number(args.id),
+        authorId: userInfo.userId,
+      },
+    });
+
+    if (!deletedPost) {
+      return {
+        userError: "Post not found or you're not the author",
+        message: null,
+      };
+    }
+    return {
+      userError: null,
+      message: "Post deleted successfully",
+    };
+  },
 };
 
 export default postResolvers;
