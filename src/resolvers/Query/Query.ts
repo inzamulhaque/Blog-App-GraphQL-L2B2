@@ -13,6 +13,14 @@ const Query = {
     return user;
   },
 
+  profile: async (parent: any, args: { userId: string }, { prisma }: any) => {
+    const profile = await prisma.profile.findUnique({
+      where: { userId: Number(args.userId) },
+    });
+
+    return profile;
+  },
+
   users: async (parent: any, args: any, { prisma }: any) => {
     const users = await prisma.user.findMany();
 
