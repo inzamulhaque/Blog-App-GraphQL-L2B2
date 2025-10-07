@@ -117,6 +117,35 @@ const postResolvers = {
       message: "Post deleted successfully",
     };
   },
+
+  publishPost: async (
+    parent: any,
+    args: { id: string },
+    { prisma, userInfo }: any
+  ) => {
+    if (!userInfo) {
+      return {
+        userError: "You must be logged in to update a post",
+        post: null,
+      };
+    }
+
+    const oldPost = await prisma.post.findUniqueOrThrow({
+      where: {
+        id: Number(args.id),
+        authorId: userInfo.userId,
+      },
+    });
+
+    const result = await prisma.post.update({
+      where: { id: oldPost.id },
+      data: {
+        published: true,
+      },
+    });
+
+    return { userError: null, post: result };
+  },
 };
 
 export default postResolvers;

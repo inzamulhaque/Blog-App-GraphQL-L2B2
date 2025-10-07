@@ -76,6 +76,10 @@ const typeDefs = `#graphql
     deletePost(
       id: ID!
     ): DeletePostPayload
+
+    publishPost(
+      id: ID!
+    ): PostPayload
   }
 `;
 
