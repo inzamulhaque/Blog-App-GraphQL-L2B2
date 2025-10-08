@@ -7,7 +7,7 @@ import { DefaultArgs } from "@prisma/client/runtime/library";
 import jwtHelper from "./utills/JWTHelper";
 import { JwtPayload } from "jsonwebtoken";
 
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 
 interface IContext {
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>;
